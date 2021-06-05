@@ -1,0 +1,13 @@
+Definition WriteToCSV
+It takes in XY coordinates and folder name specific to the iteration number.
+It counts the no.of non zero spots with specific cell ID and stores the value for the respective cell type as a .csv file.
+
+The for loop runs for 10 iterations
+Folder is created with the name stored in FolderName variable.
+XY grid is created.
+Simulation library from Simulation.py is called to simulate the model.
+CellType library from CellType.py is called to initialise the population in the grid.
+Parameter values are given to use in the simulation.
+Finally simulation is started and values for each time frame is stored in a .csv file.
+A folder is created within each iteration folder to store the images at every 5hrs timeframe.
+VideoMaker libray is called to generate te video using the saved images.

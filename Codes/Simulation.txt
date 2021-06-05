@@ -1,0 +1,89 @@
+The class Simulate includes definitions:
+
+definition GenerateNo
+It takes the Matrix, total number of cells, and ID as arguments.
+It generates N number of random spots in the matrix with given ID.
+
+definition LogisticGrowth
+It takes the number of cells to grow, total number of each cell types, growth rate, and carrying capacity as arguments.
+We then caculate the total number of cells in the matrix by adding all the cell types at time t.
+Then return the number of newly formed daughter cells obtained from logistic growth formula (NoOfCells + NoOfCells*r*(1 - N/K)).
+
+definition Calculate_dN
+It calculates the number of newly formed cells serving the purpose of recording the data in .csv file.
+
+definition Transmutation
+It takes number of cells to be converted to another cell type or remove the cell, matrix, ID of the cell type to be converted and ID of the cell to be formed (ID == 0 if the cell is removed) as arguments.
+It randomly chooses the number of specific cell types to be converted followed by changing it to required cell type by calling its ID.
+
+definition CheckNeighbours
+It takes the matrix, number of X and Y spots to check and ID as arguments.
+Returns the input matrix.
+
+definition DelElements
+It takes the matrix, number of cells to remove, and ID as arguments.
+It first locates the given ID in the matrix.
+It randomly chooses spots equal to the number of cells to be removed anywhere in the matrix.
+Finally it changes the ID of selected spot to 0 (empty spot).
+
+definition PutPoints
+It takes the matrix, number of cells, and ID as arguments.
+It finds the given ID in the matrix and append the X and Y coordinates in a list.
+For given number of specific cell type, it locates that cell coordinate and checks its neighbours by calling def CheckNeighbours.
+
+definition GhostFunc
+(Miscellaneous)
+
+definition CoordinateReturn
+It takes the matrix size, XY coordinates and diffusivity as arguments.
+For moore neighbourhood method, it stores the 4 coordinates (leftend, rightend, bottom, and top) surrounding the spot.
+
+
+def KillSCells
+It takes the matrix, X, Y, and ID as arguments.
+To apply moore neighbourhood method, def CoordinateReturn is called to return the XY coordinates for given diffusivity.
+In the selected neighbour coordinates, ID==1 is searched and randomly killed exponentially for given diffusivity value (radial increments in counting the neighbour coordinates).
+
+def ToxinDeaths
+It takes the number of cells to kill, matrix, and ID.
+Then randomly selects the given number of cells with ID==2.
+From each of the spots, it checks the neighbours and returns their coordinates by calling def CoordinateReturn.
+It checks for the ID==1 in the selected neighbour coordinates and then converts to ID==2.
+Then the ID==1 is searched and killed by calling def KillSCells.
+
+def logger
+It takes the file name, and required data as arguments.
+It writes the specific details of the cell numbers into a .csv file.
+
+def PrintInfo
+It takes the file name as arguments.
+It writes the required info into a .txt file.
+
+def ReturnWholeNumber
+It takes the number of cells and the decimal numbers as arguments.
+If the number of cells has decimal value, it separates the decimal digits and returns only the whole number until the decimals add up to give a whole number.
+
+def saveframes
+It takes the XY frames and time t as arguments.
+For every 5 time units, it plots the grid with given specifications and data in the specified folder.
+It also plots line plot along with the Grid.
+
+def write_csv
+It takes the file name as argument.
+It stores the number of cells for specific cell type at every time t with the increment of one.
+
+definition StartSimulation
+Here, the XY matrix is initiated with all empty spots.
+Then for time t=0, the number of cells at t=0 is generated in the matrix for given IDs by calling the definition GenerateNo.
+
+For logging the number of cells at each time t, the number of cell generate at each time t is appended into a list specific to each cell type.
+
+For visualisation, the frames at every 10 time units are saved by calling def saveframes.
+
+At each time t, 
+	(i) Ccil and Cci cells are killed using binomal probabilities giving the number of cells and kill rate as arguements.
+	(ii) From the dead Ccil and Cci cell spots, surrounding S cells are killed by calling def ToxinDeaths.
+	(iii) Number of C cells are converted to Ccil cells which in turn gets converted to Cci and then to Ci based on binomial probabilities of the kill rate.
+	(iv) Number of C cells to be removed are calculated based on the binomial probabilities of death rate and then removed from the matrix by calling def DelElements.
+	(v) Each cell type in the matrix is made to logistically grow by calling def LogisticGrowth.
+	(vi) Finally, the matrix is fille by the specific cell IDs by calling def PutPoints or removed by calling def DelElements.

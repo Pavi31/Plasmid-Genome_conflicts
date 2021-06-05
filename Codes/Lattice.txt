@@ -1,0 +1,4 @@
+Class Lattice
+It defines and creates the grid of given size.
+It takes in the width and height of the grid as inputs.
+The function CreateLattice creates the grid of given size and intialise the environment with zeros.

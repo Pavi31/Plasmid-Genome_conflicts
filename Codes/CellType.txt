@@ -1,0 +1,3 @@
+Class CellType
+It defines the characteristics of a cell such as name and ID, growth rate, carrying capacity, and initial population size.
+It takes the following inputs: Cell name, ID, carrying capacity (K), growth rate (r), and initial no. of cells.
