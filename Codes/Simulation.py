@@ -88,8 +88,12 @@ class Simulate():
 
 
     def CheckNeighbours(self, Matrix, SeedX, SeedY, ID):
+        '''
+        Checks in the Moore neighborhood and fills in the ID in a random neighor.
+        Returns the filled neighborhood coordinate and the Matrix.
+        '''
         choiceList = [(1,0), (0,1), (-1,0), (0,-1), (1,1), (-1,1), (-1,-1), (1,-1)]
-        neighbourCoord = [-99,-99]
+        neighbourCoord = [-99,-99] # Default no free neighbors sites
         NotFound = True
         while(NotFound and len(choiceList) > 0):
             randomNeighbourList = rand.choices(choiceList, k=1)
@@ -121,6 +125,12 @@ class Simulate():
         return Matrix    
     
     def PutPoints(self, Matrix, dN, ID):
+        '''
+        Search for dN no. of free sites in the Matrix for a parent ID using Moore neighborhood. 
+        Initially picks out all the sites with the given parent ID and chooses a random site one by one.
+        If there are no free sites for all of the parent ID, then the offspring is dropped.
+        
+        '''
         n = 0
         X,Y = np.where(Matrix == ID)
         X = list(X)
